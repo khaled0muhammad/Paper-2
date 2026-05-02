@@ -901,35 +901,43 @@ function resetAll() {
 </script>
 
 <script type="module">
-        // 1. Import the functions from the CDN URLs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    // 1. ADD THIS IMPORT
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // 2. Your specific Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCsEuzMMJcD6is3kwB0qkmWV09EJpRvBew",
-            authDomain: "paper-2-2920a.firebaseapp.com",
-            projectId: "paper-2-2920a",
-            storageBucket: "paper-2-2920a.firebasestorage.app",
-            messagingSenderId: "855154235865",
-            appId: "1:855154235865:web:630fc043d850af18eca1c8",
-            measurementId: "G-D28VTH42TL"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCsEuzMMJcD6is3kwB0qkmWV09EJpRvBew",
+        authDomain: "paper-2-2920a.firebaseapp.com",
+        projectId: "paper-2-2920a",
+        storageBucket: "paper-2-2920a.firebasestorage.app",
+        messagingSenderId: "855154235865",
+        appId: "1:855154235865:web:630fc043d850af18eca1c8",
+        measurementId: "G-D28VTH42TL"
+    };
 
-        // 3. Initialize Firebase
+    // Initialize Firebase and Auth
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 2. CREATE A LOGIN FUNCTION
+    window.loginUser = async (email, password) => {
         try {
-            const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-            
-            console.log("🔥 Firebase initialized successfully!");
-            document.getElementById("status").innerHTML = "✅ Firebase is connected!";
-            document.getElementById("status").style.color = "green";
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log("✅ Signed in as:", userCredential.user.email);
+            alert("Welcome " + userCredential.user.email);
         } catch (error) {
-            console.error("❌ Connection failed:", error);
-            document.getElementById("status").innerHTML = "❌ Connection failed. Check console.";
-            document.getElementById("status").style.color = "red";
+            console.error("❌ Sign-in Error:", error.code, error.message);
+            alert("Error: " + error.message);
         }
-    </script>
+    };
+</script>
+
+<!-- 3. ADD SIMPLE BUTTONS TO TEST -->
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="pass" placeholder="Password">
+<button onclick="loginUser(document.getElementById('email').value, document.getElementById('pass').value)">
+    Sign In
+</button>
      
 </body>
 </html>
