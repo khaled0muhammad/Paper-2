@@ -901,35 +901,25 @@ function resetAll() {
 </script>
 
 <script type="module">
+    console.log("Step 1: Script started");
+    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    // 1. ADD THIS IMPORT
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    console.log("Step 2: Imports finished");
 
     const firebaseConfig = {
         apiKey: "AIzaSyCsEuzMMJcD6is3kwB0qkmWV09EJpRvBew",
         authDomain: "paper-2-2920a.firebaseapp.com",
         projectId: "paper-2-2920a",
-        storageBucket: "paper-2-2920a.firebasestorage.app",
-        messagingSenderId: "855154235865",
-        appId: "1:855154235865:web:630fc043d850af18eca1c8",
-        measurementId: "G-D28VTH42TL"
+        appId: "1:855154235865:web:630fc043d850af18eca1c8"
     };
 
-    // Initialize Firebase and Auth
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // 2. CREATE A LOGIN FUNCTION
-    window.loginUser = async (email, password) => {
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log("✅ Signed in as:", userCredential.user.email);
-            alert("Welcome " + userCredential.user.email);
-        } catch (error) {
-            console.error("❌ Sign-in Error:", error.code, error.message);
-            alert("Error: " + error.message);
-        }
-    };
+    try {
+        const app = initializeApp(firebaseConfig);
+        console.log("Step 3: Firebase initialized!", app.name);
+        alert("If you see this, Firebase is working!");
+    } catch (e) {
+        console.error("Step 3 FAILED:", e);
+    }
 </script>
 
 <!-- 3. ADD SIMPLE BUTTONS TO TEST -->
